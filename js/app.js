@@ -1,76 +1,89 @@
+
+function totalValueDirect(allValue){
+    const food = document.getElementById(allValue);
+    const foodValue = food.value ;
+    const foodValueConvert = parseInt(foodValue);
+    return foodValueConvert ;
+}
+
 document.getElementById('calculate-btn').addEventListener('click', function(){
     const income = document.getElementById('income');
-    const incomeValue = income.value ;
-    const incomeValueConvert = parseFloat(incomeValue);
-
-    const food = document.getElementById('food');
-    const foodValue = food.value ;
-    const foodValueConvert = parseFloat(foodValue);
-
-    const rent = document.getElementById('rent');
-    const rentValue = rent.value ;
+    const incomeValue = income.value;
+    const incomeValueConvert = parseFloat(incomeValue)
+    
+    const foodValue = totalValueDirect('food');
+    const foodValueConvert = parseFloat(foodValue)
+    const rentValue = totalValueDirect('rent');
     const rentValueConvert = parseFloat(rentValue)
+    const clothesValue = totalValueDirect('clothes');
+    const clothesValueConvert = parseFloat(clothesValue)
+    const totalExpenseValue = foodValueConvert + rentValueConvert + clothesValueConvert;
 
-    const clothes = document.getElementById("clothes");
-    const clothesValue = clothes.value ;
-    const clothesValueConvert = parseFloat(clothesValue);
-
-    const totalExpense = foodValueConvert + rentValueConvert + clothesValueConvert ;
-
-    const expense = document.getElementById('expense');
-    const expenseValue = expense.innerText;
-    const expenseConvertValue = parseFloat(expenseValue)
-    expense.innerHTML = totalExpense;
-
-    const balanceValueNow = incomeValueConvert - totalExpense;
-
-    const balance = document.getElementById('balance');
-    const balanceValue = balance.innerText;
-    const balanceValueConvert = parseFloat(balanceValue);
-
-    balance.innerText = balanceValueNow;
-
-    if(incomeValueConvert < totalExpense){
-        alert('Your Balance Not enough this time');
-        balance.innerText = '4500';
-        expense.innerHTML = '5500';
-        income.value = '';
-
-        if(incomeValueConvert < 0){
-            alert ('please return valid number')
-        }
-        return incomeValueConvert;
+    if(foodValueConvert <= 0 || rentValueConvert <= 0 || clothesValueConvert <= 0 ){
+        alert ('please provide a valid number');
+        return;
     }
-   else if(isNaN(incomeValueConvert )){
-    alert('Please Provide Number');
-    balance.innerText = '4500'; 
-   }
-})
-document.getElementById('save-btn').addEventListener('click', function(){
-    const income = document.getElementById('income');
-    const incomeValue = income.value ;
-    const incomeValueConvert = parseFloat(incomeValue);
+    if(isNaN(foodValueConvert) || isNaN(rentValueConvert) || isNaN(clothesValueConvert)){
+        alert ('please call number ');
+        return;
+    }
+    if(incomeValueConvert < totalExpenseValue){
+        alert('Sorry your amount not enough');
+        return;
+    }
+    if(isNaN(incomeValueConvert)){
+        alert('please number call income property');
+        return;
+    }
+    const valueCall = document.getElementById('balance');
+    const valueCallString = valueCall.innerText;
+    const ValueConvert = parseFloat(valueCallString);
 
+    const BalanceTotalValue = incomeValueConvert - totalExpenseValue ;
+   
+    valueCall.innerText = BalanceTotalValue;
+
+    const ExpenseValueCall = document.getElementById('expense');
+    const ExpenseValueCallString = ExpenseValueCall.innerText;
+    const ExpenseValueCallStringValues = parseInt(ExpenseValueCallString);
+
+    ExpenseValueCall.innerText = totalExpenseValue; 
+})
+
+document.getElementById('save-btn').addEventListener('click', function(){
+    
+    const income = document.getElementById('income');
+    const incomeValue = income.value;
+    const incomeValueConvert = parseFloat(incomeValue);
+    
+    const valueCall = document.getElementById('balance');
+    const valueCallString = valueCall.innerText;
+    const ValueConvert = parseFloat(valueCallString);
+    
     const save = document.getElementById('save');
     const saveValue = save.value ;
     const saveValueConvert = parseFloat(saveValue);
-    
-    const totalSavingValue = (incomeValueConvert / 100) * saveValueConvert;
-    
+    if(saveValueConvert >= 100){
+        alert('Please Type your solid number');
+        return
+    }
+    if(isNaN(saveValueConvert)){
+        alert('please give number');
+        save.value = '';
+        return;
+    }
     const saving = document.getElementById('saving');
     const savingValue = saving.innerText;
-    const savingValueConvert = parseFloat(savingValue)
+    const savingValueConvert = parseFloat(savingValue);
 
+    const remaining = document.getElementById('remaining');
+    const remainingValue = remaining.innerText;
+    const remainingValueConvert = parseFloat(remainingValue)
+    
+    const totalSavingValue = (incomeValueConvert / 100) * saveValueConvert;
     saving.innerText = totalSavingValue;
+    const remainingBalance = ValueConvert - totalSavingValue;
+    remaining.innerText = remainingBalance;
 
-    const balance = document.getElementById('balance');
-    const balanceValue = balance.innerText;
-    const balanceValueConvert = parseFloat(balanceValue);
-
-    const remainingBalance = document.getElementById('remaining');
-    const remainingBalanceValue = remainingBalance.innerText;
-    const remainingValueConvert = parseFloat(remainingBalanceValue);
-
-        const nowBalance = balanceValueConvert - totalSavingValue;
-        remainingBalance.innerText = nowBalance;  
 })
+
